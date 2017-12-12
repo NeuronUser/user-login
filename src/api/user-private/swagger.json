@@ -1,0 +1,197 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "",
+    "title": "User Private API",
+    "contact": {
+      "name": "mars"
+    },
+    "version": "v1"
+  },
+  "basePath": "/api-private/v1/users",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "Basic": {
+      "type": "basic"
+    },
+    "Bearer": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+    }
+  },
+  "parameters": {
+  },
+  "responses": {
+    "ErrorResponse": {
+      "description": "Error response",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "default": "Http status",
+            "type": "string",
+            "format": "int32"
+          },
+          "code": {
+            "description": "Error code",
+            "type": "string"
+          },
+          "message": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "errors": {
+            "description": "Errors",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field": {
+                  "description": "field name",
+                  "type": "string"
+                },
+                "code": {
+                  "description": "error code",
+                  "type": "string"
+                },
+                "message": {
+                  "description": "error message",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/token/oauthState": {
+      "post": {
+        "summary": "",
+        "operationId": "NewOauthState",
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "state",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/token/oauthJump": {
+      "post": {
+        "summary": "",
+        "operationId": "OauthJump",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "authorizationCode",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/OauthJumpResponse"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/token/refresh": {
+      "post": {
+        "summary": "",
+        "operationId": "RefreshToken",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "refreshToken",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "type": "string",
+              "description": "token"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/token/logout": {
+      "post": {
+        "summary": "",
+        "operationId": "Logout",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "token",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "refreshToken",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok"
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "OauthJumpResponse": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "refreshToken": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
