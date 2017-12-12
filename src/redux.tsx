@@ -62,10 +62,10 @@ export function apiOauthState(): Dispatchable {
     return function (dispatch: (action: AnyAction) => void) {
         dispatch({type: OAUTH_STATE_REQUEST});
         return userPrivateApi.newOauthState()
-            .then((data) => {
+            .then((data: {}) => {
                 dispatch({type: OAUTH_STATE_SUCCESS, payload: data});
             })
-            .catch((response) => {
+            .catch((response: {}) => {
                 errorFromResponse(response).then((err) => {
                     dispatchResponseError(dispatch, OAUTH_STATE_FAILURE, err);
                 });
@@ -85,21 +85,21 @@ function oauthState(state: string, action: AnyAction): string {
     }
 }
 
-export const OAUTH_JUMP_REQUEST='OAUTH_JUMP_REQUEST'
-export const OAUTH_JUMP_FAILURE='OAUTH_JUMP_FAILURE'
-export const OAUTH_JUMP_SUCCESS='OAUTH_JUMP_SUCCESS'
+export const OAUTH_JUMP_REQUEST = 'OAUTH_JUMP_REQUEST';
+export const OAUTH_JUMP_FAILURE = 'OAUTH_JUMP_FAILURE';
+export const OAUTH_JUMP_SUCCESS = 'OAUTH_JUMP_SUCCESS';
 export function apiOauthJump() {
-
+    return;
 }
-export const REFRESH_TOKEN__REQUEST='REFRESH_TOKEN__REQUEST'
-export const REFRESH_TOKEN__FAILURE='REFRESH_TOKEN__FAILURE'
-export const REFRESH_TOKEN__SUCCESS='REFRESH_TOKEN__SUCCESS'
-export function apiRefreshToken(){
-
+export const REFRESH_TOKEN__REQUEST = 'REFRESH_TOKEN__REQUEST';
+export const REFRESH_TOKEN__FAILURE = 'REFRESH_TOKEN__FAILURE';
+export const REFRESH_TOKEN__SUCCESS = 'REFRESH_TOKEN__SUCCESS';
+export function apiRefreshToken() {
+    return;
 }
 
-export function apiLogout(){
-
+export function apiLogout() {
+    return;
 }
 
 export const rootReducer = combineReducers({
