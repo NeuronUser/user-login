@@ -79,8 +79,14 @@
     "/token/oauthState": {
       "post": {
         "summary": "",
-        "operationId": "NewOauthState",
+        "operationId": "OauthState",
         "parameters": [
+          {
+            "in": "query",
+            "name": "queryString",
+            "type": "string",
+            "required": true
+          }
         ],
         "responses": {
           "200": {
@@ -100,6 +106,12 @@
         "summary": "",
         "operationId": "OauthJump",
         "parameters": [
+          {
+            "in": "query",
+            "name": "redirectUri",
+            "type": "string",
+            "required": true
+          },
           {
             "in": "query",
             "name": "authorizationCode",
@@ -189,6 +201,9 @@
           "type": "string"
         },
         "refreshToken": {
+          "type": "string"
+        },
+        "queryString": {
           "type": "string"
         }
       }

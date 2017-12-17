@@ -8,8 +8,10 @@
     "@types/react-redux": "^5.0.13",
     "@types/react-router-dom": "^4.2.1",
     "@types/redux-logger": "^3.0.5",
+    "es6-promise": "^4.1.1",
     "material-ui": "^1.0.0-beta.21",
     "material-ui-icons": "^1.0.0-beta.17",
+    "portable-fetch": "^3.0.0",
     "react": "^16.1.1",
     "react-dom": "^16.1.1",
     "react-redux": "^5.0.6",
@@ -22,7 +24,7 @@
     "typescript": "^2.6.2"
   },
   "scripts": {
-    "start": "PORT=3002 react-scripts-ts start",
+    "start": "PORT=3004 react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
