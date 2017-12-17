@@ -13,7 +13,6 @@ export interface Props {
 }
 
 interface State {
-    from: string;
     code: string;
     state: string;
 }
@@ -21,12 +20,10 @@ interface State {
 class OauthJumpPage extends React.Component<Props, State> {
     componentWillMount() {
         const query = parseQueryString(window.location.search);
-        const from = valueOrDefault(query.get('from'));
         const code = valueOrDefault(query.get('code'));
         const state = valueOrDefault(query.get('state'));
 
         this.setState({
-            from: from,
             code: code,
             state: state,
         });
@@ -43,17 +40,16 @@ class OauthJumpPage extends React.Component<Props, State> {
             && !isUndefined(this.props.oauthJumpResponse.token)
             && !isUndefined(this.props.oauthJumpResponse.refreshToken)
             && !isUndefined(this.props.oauthJumpResponse.queryString)) {
-
-            const from = this.props.oauthJumpResponse.queryString;
-            let href = from;
-            if (from.indexOf('?') === -1) {
-                href += '?';
-            } else {
-                href += '&';
-            }
-            href += 'token=' + encodeURIComponent(this.props.oauthJumpResponse.token)
-                + '&refreshToken=' + encodeURIComponent(this.props.oauthJumpResponse.refreshToken);
-            window.location.href = href;
+            console.log('post')
+            window.parent.postMessage(
+                {
+                    type: 'onLoginSuccess',
+                    payload: {
+                        token: this.props.oauthJumpResponse.token,
+                        refreshToken: this.props.oauthJumpResponse.refreshToken,
+                    }
+                },
+                this.props.oauthJumpResponse.queryString);
         }
 
         return null;

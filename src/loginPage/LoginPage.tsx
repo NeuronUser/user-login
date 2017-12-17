@@ -16,23 +16,23 @@ export interface Props {
 }
 
 interface State {
-    from: string;
+    fromOrigin: string;
 }
 
 class LoginPage extends React.Component<Props, State> {
     componentWillMount() {
         const queryParams = parseQueryString(window.location.search);
-        const from = valueOrDefault(queryParams.get('from'));
+        const fromOrigin = valueOrDefault(queryParams.get('fromOrigin'));
 
-        this.setState({from: from});
+        this.setState({fromOrigin: fromOrigin});
 
         this.props.apiOauthState({
-            queryString: decodeURIComponent(from)
+            queryString: decodeURIComponent(fromOrigin)
         });
     }
 
     render() {
-        if (this.state.from === '') {
+        if (this.state.fromOrigin === '') {
             return (<div>缺少参数：from</div>);
         }
 
