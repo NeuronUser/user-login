@@ -40,7 +40,6 @@ class OauthJumpPage extends React.Component<Props, State> {
             && !isUndefined(this.props.oauthJumpResponse.token)
             && !isUndefined(this.props.oauthJumpResponse.refreshToken)
             && !isUndefined(this.props.oauthJumpResponse.queryString)) {
-            console.log('post')
             window.parent.postMessage(
                 {
                     type: 'onLoginSuccess',
