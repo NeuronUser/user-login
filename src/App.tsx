@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { BrowserRouter } from 'react-router-dom';
 import { Route, Switch } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
 import LoginPage from './loginPage/LoginPage';
 import OauthJumpPage from './oauthJumpPage/OauthJumpPage';
 
 export default class App extends React.Component {
-    render() {
+     public render() {
         return (
             <BrowserRouter>
                 <Switch>

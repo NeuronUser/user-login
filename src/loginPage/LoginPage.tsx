@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { apiOauthState, RootState } from '../redux';
 import { Dispatchable } from '../_common/action';
-import { parseQueryString, valueOrDefault } from '../_common/common';
-import { OauthStateParams } from '../api/user-private/gen/api';
+import { parseQueryString } from '../_common/common';
+import { oauthStateParams } from '../api/user-private/gen';
+import { apiOauthState, RootState } from '../redux';
 
 const AUTHORIZE_URL = 'http://localhost:3002';
 const AUTHORIZE_CLIENT_ID = '10001';
@@ -12,26 +12,26 @@ const AUTHORIZE_SCOPE = 'BASIC';
 export interface Props {
     oauthState: string;
 
-    apiOauthState: (p: OauthStateParams) => Dispatchable;
+    apiOauthState: (p: oauthStateParams) => Dispatchable;
 }
 
 interface State {
-    fromOrigin: string;
+    fromOrigin?: string;
 }
 
 class LoginPage extends React.Component<Props, State> {
-    componentWillMount() {
+    public componentWillMount() {
         const queryParams = parseQueryString(window.location.search);
-        const fromOrigin = valueOrDefault(queryParams.get('fromOrigin'));
+        const fromOrigin = queryParams.get('fromOrigin');
 
-        this.setState({fromOrigin: fromOrigin});
+        this.setState({fromOrigin});
 
         this.props.apiOauthState({
-            queryString: decodeURIComponent(fromOrigin)
+            queryString: decodeURIComponent(fromOrigin ? fromOrigin : '')
         });
     }
 
-    render() {
+    public render() {
         if (this.state.fromOrigin === '') {
             return (<div>缺少参数：from</div>);
         }
