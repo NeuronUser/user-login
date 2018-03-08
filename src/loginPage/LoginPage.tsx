@@ -5,7 +5,7 @@ import { parseQueryString } from '../_common/common';
 import { oauthStateParams } from '../api/user-private/gen';
 import { apiOauthState, RootState } from '../redux';
 
-const AUTHORIZE_URL = 'http://localhost:3002';
+const AUTHORIZE_URL = 'http://localhost:3003';
 const AUTHORIZE_CLIENT_ID = '10001';
 const AUTHORIZE_SCOPE = 'BASIC';
 
