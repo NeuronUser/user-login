@@ -5,13 +5,12 @@ import { parseQueryString } from '../_common/common';
 import { oauthStateParams } from '../api/user-private/gen';
 import { apiOauthState, RootState } from '../redux';
 
-const AUTHORIZE_URL = 'http://localhost:3003';
+const AUTHORIZE_URL = 'http://127.0.0.1:3003';
 const AUTHORIZE_CLIENT_ID = '10001';
 const AUTHORIZE_SCOPE = 'BASIC';
 
 export interface Props {
     oauthState: string;
-
     apiOauthState: (p: oauthStateParams) => Dispatchable;
 }
 
@@ -20,6 +19,15 @@ interface State {
 }
 
 class LoginPage extends React.Component<Props, State> {
+    private static redirectToAuthorize(oauthState: string) {
+        window.location.href = AUTHORIZE_URL + '?response_type=code&client_id='
+            + encodeURIComponent(AUTHORIZE_CLIENT_ID)
+            + '&state=' + encodeURIComponent(oauthState)
+            + '&scope=' + encodeURIComponent(AUTHORIZE_SCOPE)
+            + '&redirect_uri='
+            + encodeURIComponent(window.location.origin + '/oauthJump');
+    }
+
     public componentWillMount() {
         const queryParams = parseQueryString(window.location.search);
         const fromOrigin = queryParams.get('fromOrigin');
@@ -32,33 +40,25 @@ class LoginPage extends React.Component<Props, State> {
     }
 
     public render() {
-        if (this.state.fromOrigin === '') {
-            return (<div>缺少参数：from</div>);
+        const {fromOrigin} = this.state;
+        if (!fromOrigin || fromOrigin === '') {
+            return (<div>缺少参数：fromOrigin</div>);
         }
 
-        if (this.props.oauthState != null && this.props.oauthState !== '') {
-            window.location.href = AUTHORIZE_URL + '?response_type=code&client_id='
-                + encodeURIComponent(AUTHORIZE_CLIENT_ID)
-                + '&state=' + encodeURIComponent(this.props.oauthState)
-                + '&scope=' + encodeURIComponent(AUTHORIZE_SCOPE)
-                + '&redirect_uri='
-                + encodeURIComponent(window.location.origin + '/oauthJump');
-
+        const {oauthState} = this.props;
+        if (oauthState !== '') {
+            LoginPage.redirectToAuthorize(oauthState);
             return null;
         }
+
         return null;
     }
 }
 
-function selectProps(rootState: RootState) {
-    return {
+const selectProps = (rootState: RootState) => ({
         oauthState: rootState.oauthState
-    };
-}
+});
 
-export default connect(
-    selectProps,
-    {
-        apiOauthState
-    })
-(LoginPage);
+export default connect(selectProps, {
+    apiOauthState
+})(LoginPage);

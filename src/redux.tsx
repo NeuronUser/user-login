@@ -42,14 +42,6 @@ export function apiOauthJump(p: oauthJumpParams): Dispatchable {
     };
 }
 
-export function apiRefreshToken() {
-    return;
-}
-
-export function apiLogout() {
-    return;
-}
-
 function oauthState(state: string, action: StandardAction): string {
     if (isUndefined(state)) {
         return '';

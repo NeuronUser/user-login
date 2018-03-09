@@ -8,24 +8,14 @@ import { apiOauthJump, RootState } from '../redux';
 
 export interface Props {
     oauthJumpResponse: OauthJumpResponse;
-    apiOauthJump(p: oauthJumpParams): Dispatchable;
+    apiOauthJump: (p: oauthJumpParams) => Dispatchable;
 }
 
-interface State {
-    code?: string;
-    state?: string;
-}
-
-class OauthJumpPage extends React.Component<Props, State> {
+class OauthJumpPage extends React.Component<Props> {
     public componentWillMount() {
         const query = parseQueryString(window.location.search);
         const code = query.get('code');
         const state = query.get('state');
-
-        this.setState({
-            code,
-            state,
-        });
 
         this.props.apiOauthJump({
             redirectUri: encodeURIComponent(window.location.origin + '/oauthJump'),
@@ -35,40 +25,29 @@ class OauthJumpPage extends React.Component<Props, State> {
     }
 
     public render() {
-        const oauthJumpResponse = this.props.oauthJumpResponse;
-        if (!oauthJumpResponse) {
+        const {oauthJumpResponse} = this.props;
+        const {queryString, token, userID} = oauthJumpResponse;
+        const {accessToken, refreshToken} = token;
+        if (accessToken === '') {
             return null;
         }
 
-        const origin = oauthJumpResponse.queryString ? oauthJumpResponse.queryString : '';
-        const token = oauthJumpResponse.token;
-
         const actionMessage: StandardAction = {
-            type: 'onLoginCallback'
+            type: 'onLoginCallback',
+            payload: {userID, accessToken, refreshToken}
         };
+        const message = JSON.stringify(actionMessage);
+        console.log('postMessage', queryString, message, oauthJumpResponse);
 
-        if (origin === '' || token.accessToken === '' || token.refreshToken === '') {
-            actionMessage.error = true;
-            actionMessage.payload = Error('登录失败');
-        } else {
-            actionMessage.payload = {
-                userID: oauthJumpResponse.userID,
-                accessToken: token.accessToken,
-                refreshToken: token.refreshToken
-            };
-        }
-
-        window.parent.postMessage(actionMessage, origin);
+        window.parent.postMessage(message, queryString ? queryString : '');
 
         return null;
     }
 }
 
-function selectProps(rootState: RootState) {
-    return {
-        oauthJumpResponse: rootState.oauthJumpResponse,
-    };
-}
+const selectProps = (rootState: RootState) => ({
+    oauthJumpResponse: rootState.oauthJumpResponse,
+});
 
 export default connect(selectProps, {
     apiOauthJump,
