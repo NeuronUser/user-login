@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { StandardAction } from '../../../../NeuronEvolution/todo-web/src/_common/action';
 import { Dispatchable } from '../_common/action';
 import { parseQueryString } from '../_common/common';
 import { oauthJumpParams, OauthJumpResponse } from '../api/user-private/gen';
@@ -32,14 +31,12 @@ class OauthJumpPage extends React.Component<Props> {
             return null;
         }
 
-        const actionMessage: StandardAction = {
+        const actionMessage = {
             type: 'onLoginCallback',
             payload: {userID, accessToken, refreshToken}
         };
-        const message = JSON.stringify(actionMessage);
-        console.log('postMessage', queryString, message, oauthJumpResponse);
-
-        window.parent.postMessage(message, queryString ? queryString : '');
+        window.parent.postMessage(actionMessage, queryString ? queryString : '');
+        console.log('user postMessage onLoginCallback', actionMessage);
 
         return null;
     }
