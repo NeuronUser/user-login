@@ -34,9 +34,9 @@ class LoginPage extends React.Component<Props, State> {
 
         this.setState({fromOrigin});
 
-        this.props.apiOauthState({
-            queryString: decodeURIComponent(fromOrigin ? fromOrigin : '')
-        });
+        if (fromOrigin && fromOrigin !== '') {
+            this.props.apiOauthState({queryString: decodeURIComponent(fromOrigin)});
+        }
     }
 
     public render() {

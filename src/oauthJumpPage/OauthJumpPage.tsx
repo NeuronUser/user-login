@@ -36,7 +36,6 @@ class OauthJumpPage extends React.Component<Props> {
             payload: {userID, accessToken, refreshToken}
         };
         window.parent.postMessage(actionMessage, queryString ? queryString : '');
-        console.log('user postMessage onLoginCallback', actionMessage);
 
         return null;
     }
