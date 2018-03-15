@@ -66,7 +66,7 @@ function oauthJumpResponse(state: OauthJumpResponse= initialOauthJumpResponse,
     }
 }
 
-export const rootReducer = combineReducers({
+export const rootReducer = combineReducers<RootState>({
     oauthState,
     oauthJumpResponse
 });
