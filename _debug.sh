@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-PORT=3004 npm start
+PUBLIC_URL=/web/user/login PORT=3004 npm start

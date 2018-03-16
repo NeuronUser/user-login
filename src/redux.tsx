@@ -7,8 +7,9 @@ import {
     oauthJumpParams, OauthJumpResponse,
     oauthStateParams
 } from './api/user-private/gen';
+import { HOST } from './ENV';
 
-const userPrivateApi = DefaultApiFactory(undefined, fetch, 'http://127.0.0.1:8086/api-private/v1/users');
+const userPrivateApi = DefaultApiFactory(undefined, fetch, HOST + '/api-private/v1/users');
 
 export interface RootState {
     oauthState: string;

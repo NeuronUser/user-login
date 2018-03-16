@@ -5,11 +5,11 @@ import LoginPage from './loginPage/LoginPage';
 import OauthJumpPage from './oauthJumpPage/OauthJumpPage';
 
 export default class App extends React.Component {
-     public render() {
+    public render() {
         return (
             <BrowserRouter>
                 <Switch>
-                    <Route path="/oauthJump" component={OauthJumpPage}/>
+                    <Route path={process.env.PUBLIC_URL + '/oauthJump'} component={OauthJumpPage}/>
                     <Route path="/" component={LoginPage}/>
                 </Switch>
             </BrowserRouter>
