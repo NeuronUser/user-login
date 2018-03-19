@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Dispatchable } from '../_common/action';
 import { parseQueryString } from '../_common/common';
 import { oauthStateParams } from '../api/user-private/gen';
-import { HOST } from '../ENV';
+import { env } from '../env';
 import { apiOauthState, RootState } from '../redux';
 
 const AUTHORIZE_CLIENT_ID = '10001';
@@ -20,7 +20,7 @@ interface State {
 
 class LoginPage extends React.Component<Props, State> {
     private static redirectToAuthorize(oauthState: string) {
-        window.location.href = HOST + '/web/oauth/authorize/?response_type=code&client_id='
+        window.location.href = env.host + '/web/oauth/authorize/?response_type=code&client_id='
             + encodeURIComponent(AUTHORIZE_CLIENT_ID)
             + '&state=' + encodeURIComponent(oauthState)
             + '&scope=' + encodeURIComponent(AUTHORIZE_SCOPE)
