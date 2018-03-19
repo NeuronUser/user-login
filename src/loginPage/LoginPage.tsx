@@ -25,7 +25,7 @@ class LoginPage extends React.Component<Props, State> {
             + '&state=' + encodeURIComponent(oauthState)
             + '&scope=' + encodeURIComponent(AUTHORIZE_SCOPE)
             + '&redirect_uri='
-            + encodeURIComponent(window.location.origin + '/web/user/login/oauthJump');
+            + encodeURIComponent(window.location.origin + env.publicUrl + '/oauthJump');
     }
 
     public componentWillMount() {

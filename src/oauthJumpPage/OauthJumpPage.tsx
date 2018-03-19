@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Dispatchable } from '../_common/action';
 import { parseQueryString } from '../_common/common';
 import { oauthJumpParams, OauthJumpResponse } from '../api/user-private/gen';
+import { env } from '../env';
 import { apiOauthJump, RootState } from '../redux';
 
 export interface Props {
@@ -17,7 +18,7 @@ class OauthJumpPage extends React.Component<Props> {
         const state = query.get('state');
 
         this.props.apiOauthJump({
-            redirectUri: encodeURIComponent(window.location.origin + '/web/user/login/oauthJump'),
+            redirectUri: encodeURIComponent(window.location.origin + env.publicUrl + '/oauthJump'),
             authorizationCode: code ? code : '',
             state: state ? state : ''
         });
