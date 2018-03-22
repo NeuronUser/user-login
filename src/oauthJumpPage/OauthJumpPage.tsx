@@ -18,7 +18,7 @@ class OauthJumpPage extends React.Component<Props> {
         const state = query.get('state');
 
         this.props.apiOauthJump({
-            redirectUri: encodeURIComponent(window.location.origin + env.publicUrl + '/oauthJump'),
+            redirectUri: encodeURIComponent(window.location.origin + env.webPath + '/oauthJump'),
             authorizationCode: code ? code : '',
             state: state ? state : ''
         });
