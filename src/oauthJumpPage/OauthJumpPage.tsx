@@ -2,11 +2,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatchable } from '../_common/action';
 import { parseQueryString } from '../_common/common';
+import { TextTimestamp } from '../_common/TimedText';
 import { oauthJumpParams, OauthJumpResponse } from '../api/user-private/gen';
 import { env } from '../env';
 import { apiOauthJump, RootState } from '../redux';
 
 export interface Props {
+    errorMessage: TextTimestamp;
     oauthJumpResponse: OauthJumpResponse;
     apiOauthJump: (p: oauthJumpParams) => Dispatchable;
 }
@@ -25,7 +27,13 @@ class OauthJumpPage extends React.Component<Props> {
     }
 
     public render() {
-        const {oauthJumpResponse} = this.props;
+        const {oauthJumpResponse, errorMessage} = this.props;
+        if (errorMessage && errorMessage.text !== '') {
+            return (
+                <div>{errorMessage.text}</div>
+            );
+        }
+
         const {queryString, token, userID} = oauthJumpResponse;
         const {accessToken, refreshToken} = token;
         if (accessToken === '') {
@@ -43,6 +51,7 @@ class OauthJumpPage extends React.Component<Props> {
 }
 
 const selectProps = (rootState: RootState) => ({
+    errorMessage: rootState.errorMessage,
     oauthJumpResponse: rootState.oauthJumpResponse,
 });
 

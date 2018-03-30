@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatchable } from '../_common/action';
 import { parseQueryString } from '../_common/common';
+import { TextTimestamp } from '../_common/TimedText';
 import { oauthStateParams } from '../api/user-private/gen';
 import { env } from '../env';
 import { apiOauthState, RootState } from '../redux';
@@ -10,6 +11,7 @@ const AUTHORIZE_CLIENT_ID = '10001';
 const AUTHORIZE_SCOPE = 'BASIC';
 
 export interface Props {
+    errorMessage: TextTimestamp;
     oauthState: string;
     apiOauthState: (p: oauthStateParams) => Dispatchable;
 }
@@ -45,7 +47,13 @@ class LoginPage extends React.Component<Props, State> {
             return (<div>缺少参数：fromOrigin</div>);
         }
 
-        const {oauthState} = this.props;
+        const {errorMessage, oauthState} = this.props;
+        if (errorMessage && errorMessage.text !== '') {
+            return (
+                <div>{errorMessage.text}</div>
+            );
+        }
+
         if (oauthState !== '') {
             LoginPage.redirectToAuthorize(oauthState);
             return null;
@@ -56,7 +64,8 @@ class LoginPage extends React.Component<Props, State> {
 }
 
 const selectProps = (rootState: RootState) => ({
-        oauthState: rootState.oauthState
+    errorMessage: rootState.errorMessage,
+    oauthState: rootState.oauthState
 });
 
 export default connect(selectProps, {
